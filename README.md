@@ -1,80 +1,112 @@
-# Agent Black v3 - AI-Powered Search Agent CLI
+# Agent Black v3 - AI-Powered Research CLI
 
-An advanced, CLI-based research agent that performs comprehensive, multi-step research on any topic.
+An advanced, CLI-based research agent that performs comprehensive, multi-step research on any topic. This tool is a powerful command-line adaptation of the original [gemini-fullstack-langgraph-quickstart](https://github.com/google-gemini/gemini-fullstack-langgraph-quickstart) project.
 
-This tool was adapted from the original [gemini-fullstack-langgraph-quickstart](https://github.com/google-gemini/gemini-fullstack-langgraph-quickstart) project, converting a full-stack web application into a powerful, standalone command-line utility.
+## How It Works
+
+The core of this tool is a sophisticated agent built with LangGraph that intelligently navigates the web to find the best information. It doesn't just perform a single search; it reflects on its findings and launches new searches to fill in knowledge gaps, ensuring a comprehensive final report.
+
+```mermaid
+graph TD
+    A[Start: User Query] --> B{1. Generate Initial Queries};
+    B --> C{2. Web Research};
+    C --> D{3. Reflect & Analyze Gaps};
+    D -- Gaps Found --> E{4. Generate Follow-up Queries};
+    E --> C;
+    D -- Sufficient --> F{5. Finalize Answer};
+    F --> G[End: Display Report];
+
+    style A fill:#D5E8D4,stroke:#82B366,stroke-width:2px
+    style G fill:#F8CECC,stroke:#B85450,stroke-width:2px
+    style B fill:#DAE8FC,stroke:#6C8EBF
+    style C fill:#DAE8FC,stroke:#6C8EBF
+    style D fill:#DAE8FC,stroke:#6C8EBF
+    style E fill:#DAE8FC,stroke:#6C8EBF
+    style F fill:#DAE8FC,stroke:#6C8EBF
+```
 
 ## Features
 
--   **Dynamic Research**: Run search queries directly from your terminal.
--   **Configurable Difficulty**: Adjust search depth (`easy`, `medium`, `hard`) to control the thoroughness of the research.
--   **Model Selection**: Choose the exact Gemini model you want to use for reasoning.
--   **Rich Output**: Enjoy beautiful, colorful terminal output with formatted text, progress indicators, and tables.
--   **Cited Sources**: Get comprehensive answers with a full list of sources used for the research.
--   **Save Results**: Save complete search reports to a text file for later use.
+-   **🧠 Intelligent Agent**: Utilizes a LangGraph-powered agent for advanced, multi-step research.
+-   **🔍 Dynamic Query Generation**: Uses Gemini to generate and refine search queries on the fly.
+-   **🤔 Reflective Reasoning**: Analyzes search results to identify and fill knowledge gaps.
+-   **📄 Rich, Formatted Output**: Presents findings in a beautiful and easy-to-read format in your terminal.
+-   **📚 Cited Sources**: Generates a complete answer with citations from the gathered web sources.
+-   **💾 Save for Later**: Allows you to save the complete report to a local text file.
 
-## Setup
+## Technologies Used
 
-1.  **Clone the Repository**:
-    ```bash
-    git clone <your-repository-url>
-    cd <repository-directory>
-    ```
+-   **[LangGraph](https://python.langchain.com/docs/langgraph/)**: The core framework for building the stateful, multi-actor agent.
+-   **[Google Gemini](https://deepmind.google/technologies/gemini/)**: The LLM used for query generation, reflection, and answer synthesis.
+-   **[Rich](https://github.com/Textualize/rich)**: For beautiful and elegant terminal formatting.
+-   **[Colorama](https://github.com/tartley/colorama)**: For cross-platform colored terminal text.
 
-2.  **Install Dependencies**:
-    It's recommended to use a virtual environment.
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    pip install -r requirements.txt
-    ```
+## Getting Started
 
-3.  **Set Up Your API Key**:
-    -   Create a `.env` file in the root directory. You can copy the `.env.example` if it exists.
-    -   Add your Google Gemini API key to the `.env` file:
-        ```
-        GEMINI_API_KEY="your_api_key_here"
-        ```
-    -   You can get a Gemini API key from [Google AI Studio](https://aistudio.google.com/).
+Follow these steps to get the application running locally.
+
+#### **1. Prerequisites:**
+
+-   Python 3.9+
+-   A Google Gemini API Key.
+
+#### **2. Installation:**
+
+First, clone the repository to your local machine:
+
+```bash
+git clone https://github.com/Leadersasif55/AgentBlack_Search_v3.git
+cd AgentBlack_Search_v3
+```
+
+Next, it is highly recommended to create a Python virtual environment to manage dependencies:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+```
+
+Now, install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+#### **3. Configure Your API Key:**
+
+Create a `.env` file in the project's root directory. You can do this by copying the `.env.example` file if one exists, or creating a new one. Add your Gemini API key to this file:
+
+```
+GEMINI_API_KEY="YOUR_ACTUAL_API_KEY"
+```
+
+You can get a Gemini API key from [Google AI Studio](https://aistudio.google.com/).
 
 ## Usage
 
 You can run searches directly using `python main.py` or use the provided helper scripts.
 
-**Directly:**
+#### **Command Line Arguments:**
+
+-   `query`: (Required) The search topic, enclosed in quotes.
+-   `--difficulty`: `easy`, `medium`, or `hard`. Controls the depth of research. (Default: `medium`).
+-   `--model`: Specify a Gemini model to use.
+-   `--save FILENAME`: Save the report to a text file.
+-   `--no-color`: Disable all colored output.
+-   `--retries N`: Set the max number of retries for API calls.
+
+#### **Examples:**
+
+**1. Basic search with medium difficulty:**
 ```bash
-python main.py "your search query" [options]
+python main.py "The future of renewable energy"
 ```
 
-**Using Helper Scripts:**
-The `run_search.sh` (for Linux/macOS) and `run_search.bat` (for Windows) scripts provide an easy way to run a default query.
-
-### Options
-
--   `query`: (Required) The search query you want to run, enclosed in quotes.
--   `--difficulty`: Set the search difficulty (`easy`, `medium`, `hard`). Default is `medium`.
--   `--model`: Specify which model to use. If not provided, a default is chosen based on the difficulty level.
--   `--save FILENAME`: Save the full report to a text file.
--   `--no-color`: Disable colored output.
--   `--retries N`: Set the maximum number of retries for API calls.
-
-### Examples
-
-**Basic Search (Medium Difficulty):**
+**2. An in-depth search on a technical topic, saved to a file:**
 ```bash
-python main.py "recent developments in quantum computing"
+python main.py "How do neural networks learn?" --difficulty hard --save neural_networks.txt
 ```
 
-**Easy Search and Save to File:**
-```bash
-python main.py "history of artificial intelligence" --difficulty medium --save ai_history.txt
-```
+## License
 
-**Hard Search with a Specific Model:**
-```bash
-python main.py "climate change solutions" --difficulty hard --model gemini-2.5-pro-preview-05-06
-```
-
-## Credits
-
-This project is a CLI adaptation of the awesome [gemini-fullstack-langgraph-quickstart](https://github.com/google-gemini/gemini-fullstack-langgraph-quickstart) by Google. It utilizes the core LangGraph agent logic for its research capabilities. 
+This project is licensed under the Apache License 2.0. See the `LICENSE` file for details. 
