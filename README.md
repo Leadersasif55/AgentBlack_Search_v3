@@ -7,22 +7,22 @@ An advanced, CLI-based research agent that performs comprehensive, multi-step re
 The core of this tool is a sophisticated agent built with LangGraph that intelligently navigates the web to find the best information. It doesn't just perform a single search; it reflects on its findings and launches new searches to fill in knowledge gaps, ensuring a comprehensive final report.
 
 ```mermaid
-graph TD
-    A[Start: User Query] --> B{1. Generate Initial Queries};
-    B --> C{2. Web Research};
-    C --> D{3. Reflect & Analyze Gaps};
-    D -- Gaps Found --> E{4. Generate Follow-up Queries};
+graph LR
+    A[User Query] --> B(Generate Queries);
+    B --> C(Web Research);
+    C --> D{Reflect};
+    D -- Gaps? --> E(Refine Queries);
     E --> C;
-    D -- Sufficient --> F{5. Finalize Answer};
-    F --> G[End: Display Report];
+    D -- Sufficient --> F(Finalize Answer);
+    F --> G[Display Report];
 
-    style A fill:#D5E8D4,stroke:#82B366,stroke-width:2px
-    style G fill:#F8CECC,stroke:#B85450,stroke-width:2px
-    style B fill:#DAE8FC,stroke:#6C8EBF
-    style C fill:#DAE8FC,stroke:#6C8EBF
-    style D fill:#DAE8FC,stroke:#6C8EBF
-    style E fill:#DAE8FC,stroke:#6C8EBF
-    style F fill:#DAE8FC,stroke:#6C8EBF
+    style A fill:#D5E8D4,stroke:#82B366,stroke-width:2px,color:black
+    style G fill:#F8CECC,stroke:#B85450,stroke-width:2px,color:black
+    style B fill:#DAE8FC,stroke:#6C8EBF,color:black
+    style C fill:#DAE8FC,stroke:#6C8EBF,color:black
+    style D fill:#FFF2CC,stroke:#D6B656,color:black
+    style E fill:#DAE8FC,stroke:#6C8EBF,color:black
+    style F fill:#DAE8FC,stroke:#6C8EBF,color:black
 ```
 
 ## Features
